@@ -2,7 +2,7 @@
 Name: Reddit
 Description: Tools to interact with Reddit
 Metadata: bundle: true
-Share Tools: Get Posts, Search Reddit Posts, Get Post, Get User Profile, Get User Posts, Get User Comments, Get Comments On Post, Get Subreddit Information, Search For Subreddit, Get Subreddits, Get My Profile
+Share Tools: Get Posts, Search Reddit Posts, Get Post, Get User Profile, Get User Posts, Get User Comments, Get Comments On Post, Get Subreddit Information, Search For Subreddit, Get Subreddits, Get My Profile, Get Unread Messages, Get Recent Messages, Get Inbox Items, Create Text Post, Create Link Post, Create Poll Post, Comment On Post, Reply Comment
 
 ---
 Name: Get Posts
@@ -100,4 +100,77 @@ Description: Get signed in user's profile.
 Credential: ./credential/user-auth.gpt
 
 #!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetMyProfile
+---
+Name: Get Unread Messages
+Description: Get unread direct messages, replies, and comments.
+Credential: ./credential/user-auth.gpt
+Param: mark_read: Options: "Yes" or "No". Marks unread messages as read. Default is "No".
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetUnreadMessages
+
+---
+Name: Get Recent Messages
+Description: Get recent direct messages.
+Credential: ./credential/user-auth.gpt
+Param: limit: Optional. Maximum number of messages to retrieve. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetRecentMessages
+
+---
+Name: Get Inbox Items
+Description: Get all recent inbox items.
+Credential: ./credential/user-auth.gpt
+Param: limit: Optional. Maximum number of messages to retrieve. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetInboxItems
+
+---
+Name: Create Text Post
+Description: Create a text post on Reddit.
+Credential: ./credential/user-auth.gpt
+Param: subreddit: Required. Subreddit to post to.
+Param: title: Required. Title of the post.
+Param: content: Required. Text content of the post.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py CreateTextPost
+
+---
+Name: Create Link Post
+Description: Create a link post on Reddit.
+Credential: ./credential/user-auth.gpt
+Param: subreddit: Required. Subreddit to post to.  
+Param: title: Required. Title of the post.
+Param: url: Required. URL to link to.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py CreateLinkPost
+
+---
+Name: Create Poll Post
+Description: Create a poll post on Reddit.
+Credential: ./credential/user-auth.gpt
+Param: subreddit: Required. Subreddit to post to.
+Param: title: Required. Title of the post.
+Param: text: Required. Accompanying text to the poll.
+Param: options: Required. Poll options separated by commas.
+Param: duration: Optional. Duration of poll in days (2-7). Default is 3.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py CreatePollPost
+
+---
+Name: Comment On Post
+Description: Add a comment on a Reddit post.
+Credential: ./credential/user-auth.gpt
+Param: post_id: Required. ID of the post to comment on.
+Param: text: Required. Text content of the comment.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py CommentOnPost
+
+---
+Name: Reply Comment
+Description: Reply to a Reddit comment.
+Credential: ./credential/user-auth.gpt
+Param: comment_id: Required. ID of the comment to reply to.
+Param: text: Required. Text content of the reply.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py ReplyComment
 

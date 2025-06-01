@@ -3,6 +3,7 @@ import sys
 import praw
 from tools.helper import tool_registry
 
+
 def create_client():
     client_id = os.getenv("REDDIT_CLIENT_ID")
     client_secret = os.getenv("REDDIT_CLIENT_SECRET")
@@ -29,12 +30,18 @@ def validate_credential():
     reddit = create_client()
 
     try:
-        reddit.subreddit("python").hot(limit=1)
-        print("Reddit client is valid.")
-        sys.exit(0)
+        if reddit.read_only:
+            next(reddit.subreddit("python").hot(limit=1))
+            print("Reddit client is valid (read-only mode)")
+            sys.exit(0)
+        else:
+            user = reddit.user.me()
+            print(f"Reddit client is valid (authenticated as {user.name})")
+            sys.exit(0)
     except Exception as e:
         print(f"Reddit client is invalid: {e}")
         sys.exit(1)
+
 
 read_only_client = create_client()
 user_client = create_client()

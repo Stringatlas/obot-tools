@@ -1,6 +1,6 @@
 import os
 from tools.helper import tool_registry
-from tools.reddit import read_only_client
+from tools.reddit import read_only_client, user_client
 from praw.models import ListingGenerator, Submission
 from tools.comment import extract_comment_attributes
 
@@ -133,7 +133,7 @@ def get_comments_on_post():
     limit = int(os.getenv("LIMIT") or 10)
 
     submission = read_only_client.submission(id=post_id)
-    submission.comments.replace_more(limit=None)
+    submission.comments.replace_more(limit=limit)
     return [extract_comment_attributes(comment) for comment in submission.comments.list()]
 
 
@@ -142,3 +142,64 @@ def get_post_from_id():
     post_id = os.getenv("POST_ID")
 
     return extract_submission_attributes(read_only_client.submission(id=post_id))
+
+
+@tool_registry.decorator("CreateTextPost")
+def create_text_post():
+    """
+    Creates a text post in the specified subreddit.
+    """
+    subreddit = os.getenv("SUBREDDIT")
+    title = os.getenv("TITLE")
+    content = os.getenv("CONTENT")
+
+    submission = user_client.subreddit(subreddit).submit(title=title, selftext=content)
+    post_data = extract_submission_attributes(submission)
+
+    return {
+        "status": "success",
+        "post_data": post_data
+    }
+
+
+@tool_registry.decorator("CreateLinkPost")
+def create_link_post():
+    """
+    Creates a link post in the specified subreddit.
+    """
+    subreddit = os.getenv("SUBREDDIT")
+    title = os.getenv("TITLE")
+    url = os.getenv("URL")
+
+    submission = user_client.subreddit(subreddit).submit(title=title, url=url)
+    post_data = extract_submission_attributes(submission)
+
+    return {
+        "status": "success",
+        "post_data": post_data
+    }
+
+
+@tool_registry.decorator("CreatePollPost")
+def create_poll_post():
+    """
+    Creates a poll post in the specified subreddit.
+    """
+    subreddit = os.getenv("SUBREDDIT")
+    title = os.getenv("TITLE")
+    text = os.getenv("TEXT")
+    options = [option.strip() for option in os.getenv("OPTIONS").split(",")]
+    duration = int(os.getenv("DURATION") or 3)
+
+    submission = user_client.subreddit(subreddit).submit_poll(
+        title=title,
+        selftext=text,
+        options=options,
+        duration=duration * 24 * 60 * 60  # Convert days to seconds
+    )
+    post_data = extract_submission_attributes(submission)
+
+    return {
+        "status": "success",
+        "post_data": post_data
+    }

@@ -3,6 +3,7 @@ import sys
 from tools.helper import tool_registry
 import tools.post, tools.comment, tools.message, tools.user, tools.subreddit
 
+
 def main():
     if len(sys.argv) != 2:
         print(f"Error running command: {' '.join(sys.argv)} \nUsage: python3 main.py <command>")

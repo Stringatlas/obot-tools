@@ -25,6 +25,7 @@ def extract_subreddit_attributes(subreddit: Subreddit):
     
     return data
 
+
 @tool_registry.decorator("GetSubredditInformation")
 def get_subreddit_information():
     """
@@ -35,6 +36,7 @@ def get_subreddit_information():
     subreddit = read_only_client.subreddit(subreddit_name)
     return extract_subreddit_attributes(subreddit)
 
+
 @tool_registry.decorator("SearchForSubreddit")
 def search_for_subreddit():
     """
@@ -44,6 +46,7 @@ def search_for_subreddit():
     limit = int(os.getenv("LIMIT") or 5)
     subreddits = read_only_client.subreddits.search(keyword, limit=limit)
     return [extract_subreddit_attributes(subreddit) for subreddit in subreddits]
+
 
 @tool_registry.decorator("GetSubreddits")
 def get_subreddits():

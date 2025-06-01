@@ -1,5 +1,7 @@
+import os
 from tools.helper import tool_registry
 from praw.models import Message
+from tools.reddit import user_client
 
 
 def extract_message_content(message: Message) -> dict:
@@ -17,7 +19,29 @@ def extract_message_content(message: Message) -> dict:
     }
 
 
-
 @tool_registry.decorator("GetUnreadMessages")
 def get_unread_messages():
-    ...
+    """
+    Retrieves unread messages from the user's Reddit inbox and optionally marks them as read.
+    """
+    mark_read = os.getenv("MARK_READ", "No").lower() == "yes"
+    unread = user_client.inbox.unread()
+
+    return [(lambda m: m.mark_read() or extract_message_content(m) if mark_read 
+            else extract_message_content(m))(message) for message in unread]
+
+
+@tool_registry.decorator("GetRecentMessages")
+def get_recent_messages():
+    limit = int(os.getenv("LIMIT") or 10)
+    messages = user_client.inbox.messages(limit=limit)
+
+    return [extract_message_content(message) for message in messages]
+
+
+@tool_registry.decorator("GetInboxItems")
+def get_inbox_items():
+    limit = int(os.getenv("LIMIT") or 10)
+    messages = user_client.inbox.all(limit=limit)
+
+    return [extract_message_content(messages) for messages in messages]
