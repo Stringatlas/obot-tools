@@ -95,6 +95,8 @@ tools:
     reference: ./discord
   proxycurl:
     reference: ./proxycurl
+  reddit:
+    refernece: ./reddit
 
 
 knowledgeDataSources:

@@ -1,0 +1,103 @@
+---
+Name: Reddit
+Description: Tools to interact with Reddit
+Metadata: bundle: true
+Share Tools: Get Posts, Search Reddit Posts, Get Post, Get User Profile, Get User Posts, Get User Comments, Get Comments On Post, Get Subreddit Information, Search For Subreddit, Get Subreddits, Get My Profile
+
+---
+Name: Get Posts
+Description: Get Reddit posts.
+Credential: ./credential/client-auth.gpt
+Param: subreddit: Optional. Subreddit to search from. Default searches from all subreddits.
+Param: sort_by: Optional. Criterion to sort by. Options are "hot", "new", "top", "controversial", "rising". Default is "top".
+Param: time_filter: Only available if sort_by is "top" or "controversial". Options are "all", "year", "month", "week", "day", "hour". Default is "all".
+Param: limit: Optional. Maximum number of posts to fetch. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetPosts
+
+---
+Name: Search Reddit Posts
+Description: Search Reddit posts.
+Credential: ./credential/client-auth.gpt
+Param: subreddit: Optional. Subreddit to search post in. Default is all.
+Param: keyword: Required. Search keyword.
+Param: limit: Optional. Maximum number of posts to fetch. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py SearchRedditPosts
+
+---
+Name: Get Post
+Description: Get post from ID.
+Credential: ./credential/client-auth.gpt
+Param: post_id: Required. ID of the reddit post.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetPostFromID
+
+---
+Name: Get User Profile
+Description: Get user profile from username.
+Credential: ./credential/client-auth.gpt
+Param: username: Required. Username of redditor.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetUserProfile
+
+---
+Name: Get User Posts
+Description: Get user posts from username.
+Credential: ./credential/client-auth.gpt
+Param: username: Required. Username of redditor.
+Param: limit: Optional. Maximum number of posts to retrieve. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetUserPosts
+
+---
+Name: Get User Comments
+Description: Get user comments from username.
+Credential: ./credential/client-auth.gpt
+Param: username: Required. Username of redditor.
+Param: limit: Optional. Maximum number of commments to retrieve. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetUserComments
+
+---
+Name: Get Comments On Post
+Description: Get comments from a post.
+Credential: ./credential/client-auth.gpt
+Param: post_id: Required. Post ID.
+Param: limit: Optional. Maximum number of commments to retrieve. Default is 10.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetCommentsOnPost
+
+---
+Name: Get Subreddit Information
+Description: Get information about a subreddit.
+Credential: ./credential/client-auth.gpt
+Param: subreddit: Required. Name of subreddit.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetSubredditInformation
+
+---
+Name: Search For Subreddit
+Description: Search for a subreddit.
+Credential: ./credential/client-auth.gpt
+Param: keyword: Required. Search term.
+Param: limit: Optional. Maximum number of search results. Default is 5.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py SearchForSubreddit
+
+---
+Name: Get Subreddits
+Description: Get subreddits.
+Credential: ./credential/client-auth.gpt
+Param: sort_by: Optional. Criterion to sort by. Options are "popular", "default", "top", "new". Default is "default".
+Param: limit: Optional. Maximum number of search results. Default is 5.
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetSubreddits
+
+---
+Name: Get My Profile
+Description: Get signed in user's profile.
+Credential: ./credential/user-auth.gpt
+
+#!/usr/bin/env python3 ${GPTSCRIPT_TOOL_DIR}/main.py GetMyProfile
+
